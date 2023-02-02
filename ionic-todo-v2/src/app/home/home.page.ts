@@ -47,12 +47,31 @@ export class HomePage {
     localStorage.setItem('todosDb', JSON.stringify(this.todos))
   }
 
+  addTodo(){
+
+  }
+
   async showAdd(){
     const alert = await this.alertCtrl.create({
-      header: 'Please enter your info',
-      buttons: ['Cancel', 'Add todo!'],
+      header: 'Write your todo below',
+      cssClass: 'alertModal',
+      buttons: [
+        {
+          text: 'Add todo!',
+          handler: (form) => {
+            // this.addTodo(form.todo)
+          }
+        },
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'cancelBtn',
+        }
+      ],
       inputs: [
         {
+          name: 'todoInput',
+          type: 'text',
           placeholder: "What you're gonna do?",
         }
       ]
