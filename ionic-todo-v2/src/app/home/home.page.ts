@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Todo } from '../types/Todo';
-import { ActionSheetController, AlertController } from '@ionic/angular';
+import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +13,10 @@ export class HomePage {
 
   constructor(
     public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController) {}
+    public alertCtrl: AlertController,
+    public toastCtrl: ToastController) {
+
+    }
 
   async openActions(todo: Todo){
     const actionSheet = await this.actionSheetCtrl.create({
@@ -47,8 +50,12 @@ export class HomePage {
     localStorage.setItem('todosDb', JSON.stringify(this.todos))
   }
 
-  addTodo(){
-
+  async addTodo(todo: string){
+    if(todo.trim().length < 1){
+      const toast = await this.toastCtrl.create({
+        message: 'Informe o seu todo'
+      })
+    }
   }
 
   async showAdd(){
