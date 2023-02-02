@@ -9,7 +9,7 @@ import { ActionSheetController, AlertController, ToastController } from '@ionic/
 })
 export class HomePage {
 
-  todos: Todo[] = []
+  todos: Todo[] = [];
 
   constructor(
     public actionSheetCtrl: ActionSheetController,
@@ -43,18 +43,22 @@ export class HomePage {
   }
 
   deleteTodo(todo:Todo){
-    this.todos = this.todos.filter(todoArray => todo != todoArray)
+    this.todos = this.todos.filter(todoArray => todo != todoArray);
+    this.updateLocalStorage();
   }
 
   updateLocalStorage(){
-    localStorage.setItem('todosDb', JSON.stringify(this.todos))
+    localStorage.setItem('todosDb', JSON.stringify(this.todos));
   }
 
   async addTodo(todo: string){
     if(todo.trim().length < 1){
       const toast = await this.toastCtrl.create({
-        message: 'Informe o seu todo'
+        message: 'Informe o seu todo',
+        duration: 2000,
+        position: 'top'
       })
+      await toast.present()
     }
   }
 
@@ -66,7 +70,7 @@ export class HomePage {
         {
           text: 'Add todo!',
           handler: (form) => {
-            // this.addTodo(form.todo)
+            this.addTodo(form.todo)
           }
         },
         {
