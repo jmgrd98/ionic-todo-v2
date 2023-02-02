@@ -14,7 +14,7 @@
 
   <ion-item-sliding *ngFor="let todo of todos">
     <ion-item (click)="openActions(todo)">
-      <ion-label *ngIf="todo.done">{{todo.name}}</ion-label>
+      <ion-label *ngIf="todo.done"><del>{{todo.name}}</del></ion-label>
       <ion-label *ngIf="!todo.done">{{todo.name}}</ion-label>
       <ion-icon *ngIf="!todo.done" slot="start" name="radio-button-off"></ion-icon>
       <ion-icon *ngIf="todo.done" slot="start" name="checkmark-circle" color="success"></ion-icon>

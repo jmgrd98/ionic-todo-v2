@@ -12,10 +12,13 @@ export class HomePage {
   todos: Todo[] = [];
 
   constructor(
-    public actionSheetCtrl: ActionSheetController,
-    public alertCtrl: AlertController,
-    public toastCtrl: ToastController) {
-
+    private actionSheetCtrl: ActionSheetController,
+    private alertCtrl: AlertController,
+    private toastCtrl: ToastController) {
+      let todosJson = localStorage.getItem('todosDb');
+      if(todosJson != null){
+        this.todos = JSON.parse(todosJson);
+      }
     }
 
   async openActions(todo: Todo){
@@ -51,15 +54,20 @@ export class HomePage {
     localStorage.setItem('todosDb', JSON.stringify(this.todos));
   }
 
-  async addTodo(todo: string){
-    if(todo.trim().length < 1){
+  async addTodo(todoTodo: string){
+    if(todoTodo.trim().length < 1){
       const toast = await this.toastCtrl.create({
         message: 'Informe o seu todo',
         duration: 2000,
         position: 'top'
       })
-      await toast.present()
+      toast.present();
+      return;
     }
+
+    let todo = {name: todoTodo, done: false};
+    this.todos.push(todo);
+    this.updateLocalStorage();
   }
 
   async showAdd(){
@@ -70,7 +78,7 @@ export class HomePage {
         {
           text: 'Add todo!',
           handler: (form) => {
-            this.addTodo(form.todo)
+            this.addTodo(form.todoTodo);
           }
         },
         {
@@ -81,7 +89,7 @@ export class HomePage {
       ],
       inputs: [
         {
-          name: 'todoInput',
+          name: 'todoTodo',
           type: 'text',
           placeholder: "What you're gonna do?",
         }
