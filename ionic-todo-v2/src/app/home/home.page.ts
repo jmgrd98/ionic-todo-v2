@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Todo } from '../types/Todo';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
+import { TodoService } from '../services/todo.service';
 
 @Component({
   selector: 'app-home',
@@ -12,6 +13,7 @@ export class HomePage {
   todos: Todo[] = [];
 
   constructor(
+    private todoService: TodoService,
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController) {
@@ -19,6 +21,9 @@ export class HomePage {
       if(todosJson != null){
         this.todos = JSON.parse(todosJson);
       }
+
+      const todos = this.todoService.getTodo('');
+      console.log(todos)
     }
 
   async openActions(todo: Todo){
