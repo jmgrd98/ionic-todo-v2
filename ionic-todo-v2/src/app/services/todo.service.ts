@@ -11,6 +11,21 @@ export class TodoService {
 
   public async getTodo(urlContext?:string){
 
-   return this.httpService.get(environment.url).toPromise()
+   return this.httpService.get(environment.url).toPromise();
+  }
+
+  public async createTodo(urlContext?:string){
+    
+    return this.httpService.post(environment.url, urlContext).toPromise();
+  }
+
+  public async editTodo(urlContext?:string){
+
+    return this.httpService.patch(environment.url, urlContext).toPromise();
+  }
+
+  public async deleteTodo(urlContext?:string){
+
+    return this.httpService.delete(environment.url).toPromise();
   }
 }
