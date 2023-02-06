@@ -1,4 +1,4 @@
 export class Todo{
-    name: string = '';
-    done: boolean = false;
+    description: string = '';
+    completed: boolean = false;
 }

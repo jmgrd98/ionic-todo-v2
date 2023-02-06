@@ -25,10 +25,10 @@ export class HomePage {
     const actionSheet = await this.actionSheetCtrl.create({
       header: "O que deseja fazer?",
       buttons: [{
-        text: todo.done ? 'Desmarcar' : 'Marcar',
-        icon: todo.done ? 'radio-button-off' : 'checkmark-circle',
+        text: todo.completed ? 'Desmarcar' : 'Marcar',
+        icon: todo.completed ? 'radio-button-off' : 'checkmark-circle',
         handler: () => {
-          todo.done = !todo.done;
+          todo.completed = !todo.completed;
           this.updateLocalStorage();
         },
       },
@@ -65,7 +65,7 @@ export class HomePage {
       return;
     }
 
-    let todo = {name: todoTodo, done: false};
+    let todo = {description: todoTodo, completed: false};
     this.todos.push(todo);
     this.updateLocalStorage();
   }
