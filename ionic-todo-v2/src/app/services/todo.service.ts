@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Todo } from '../types/Todo';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class TodoService {
 
   constructor(private httpService: HttpClient) { }
@@ -14,9 +16,9 @@ export class TodoService {
    return this.httpService.get(environment.url).toPromise();
   }
 
-  public async createTodo(urlContext?:string){
+  public async createTodo(todo:Todo){
     
-    return this.httpService.post(environment.url, urlContext).toPromise();
+    return this.httpService.post(environment.url, todo).toPromise();
   }
 
   public async editTodo(urlContext?:string){

@@ -71,13 +71,9 @@ export class HomePage {
       return;
     }
 
-    console.log(todoTodo)
-
-    // this.todo.createTodo(environment.url)
-
     let todo = {description: todoTodo, completed: false};
     this.todos.push(todo);
-    // this.updateLocalStorage();
+    this.todoService.createTodo(todo);
   }
 
   async showAdd(){
