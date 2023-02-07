@@ -16,9 +16,9 @@ export class TodoService {
     return this.httpService.get(environment.url).toPromise();
    }
 
-  public async getTodo(urlContext?:string){
+  public async getTodo(id:string){
 
-   return this.httpService.get(environment.url).toPromise();
+   return this.httpService.get(environment.url+id).toPromise();
   }
 
   public async createTodo(todo:Todo){
@@ -26,12 +26,15 @@ export class TodoService {
     return this.httpService.post(environment.url, todo).toPromise();
   }
 
-  public async editTodo(id:string, todo:Todo){
+  public async editTodo(id:any, todo:Todo){
+
+    todo.completed = !todo.completed;
 
     return this.httpService.patch(environment.url+`/${id}`, todo).toPromise();
   }
 
   public async deleteTodo(id:string){
+
     return this.httpService.delete(environment.url+`/${id}`).toPromise();
   }
 

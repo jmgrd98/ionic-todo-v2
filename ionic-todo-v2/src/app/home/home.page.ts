@@ -33,8 +33,9 @@ export class HomePage implements OnInit{
         text: todo.completed ? 'Desmarcar' : 'Marcar',
         icon: todo.completed ? 'radio-button-off' : 'checkmark-circle',
         handler: () => {
-          todo.completed = !todo.completed;
-          this.todoService.editTodo(JSON.stringify(todo.id), todo);
+          // todo.completed = !todo.completed;
+          this.todoService.editTodo(todo.id, todo);
+          // this.getTodos();
         },
       },
       {
