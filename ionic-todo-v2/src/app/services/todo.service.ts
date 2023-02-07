@@ -9,10 +9,10 @@ import { Todo } from '../types/Todo';
 
 export class TodoService {
 
+  todos: any;
   constructor(private httpService: HttpClient) { }
 
   public async getAll(){
-
     return this.httpService.get(environment.url).toPromise();
    }
 
@@ -26,13 +26,13 @@ export class TodoService {
     return this.httpService.post(environment.url, todo).toPromise();
   }
 
-  public async editTodo(urlContext?:string){
+  public async editTodo(id:string, todo:Todo){
 
-    return this.httpService.patch(environment.url, urlContext).toPromise();
+    return this.httpService.patch(environment.url+`/${id}`, todo).toPromise();
   }
 
-  public async deleteTodo(urlContext?:string){
-
-    return this.httpService.delete(environment.url).toPromise();
+  public async deleteTodo(id:string){
+    return this.httpService.delete(environment.url+`/${id}`).toPromise();
   }
+
 }

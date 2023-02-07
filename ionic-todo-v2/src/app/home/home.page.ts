@@ -1,29 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Todo } from '../types/Todo';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 import { TodoService } from '../services/todo.service';
 import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit{
 
-  todos: Todo[] = [];
+  todos: any = {};
 
   constructor(
     private todoService: TodoService,
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController) {
-      // let todosJson = localStorage.getItem('todosDb');
-      // if(todosJson != null){
-      //   this.todos = JSON.parse(todosJson);
-      // }
     }
 
+    async ngOnInit() {
+      this.getTodos();
+    }
+
+  async getTodos(){
+    this.todos =  await this.todoService.getAll();
+  }
   async openActions(todo: Todo){
     const actionSheet = await this.actionSheetCtrl.create({
       header: "O que deseja fazer?",
@@ -32,7 +34,7 @@ export class HomePage {
         icon: todo.completed ? 'radio-button-off' : 'checkmark-circle',
         handler: () => {
           todo.completed = !todo.completed;
-          // this.updateLocalStorage();
+          this.todoService.editTodo(JSON.stringify(todo.id), todo);
         },
       },
       {
@@ -48,15 +50,14 @@ export class HomePage {
     await actionSheet.present()
   }
 
-  deleteTodo(todo:Todo){
-    this.todos = this.todos.filter(todoArray => todo != todoArray);
-    // this.updateLocalStorage();
-    // this.todoService.deleteTodo(todo)
+  async deleteTodo(todo: { id: string; }){
+    try{
+      await this.todoService.deleteTodo(todo.id);
+      this.getTodos();
+    }catch(e){
+      console.log(e);
+    }
   }
-
-  // updateLocalStorage(){
-  //   localStorage.setItem('todosDb', JSON.stringify(this.todos));
-  // }
 
   async addTodo(todoTodo: string){
     if(todoTodo.trim().length < 1){
@@ -70,9 +71,8 @@ export class HomePage {
     }
 
     let todo = {description: todoTodo, completed: false};
-    // this.todos.push(todo);
-    this.todoService.createTodo(todo);
-    this.todoService.getAll();
+    await this.todoService.createTodo(todo);
+    await this.getTodos();
   }
 
   async showAdd(){
@@ -102,5 +102,6 @@ export class HomePage {
     })
     await alert.present()
   }
+
 }
  
