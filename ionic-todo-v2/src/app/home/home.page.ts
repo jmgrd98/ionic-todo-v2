@@ -22,9 +22,6 @@ export class HomePage {
       // if(todosJson != null){
       //   this.todos = JSON.parse(todosJson);
       // }
-
-      const todos = this.todoService.getTodo('');
-      console.log(todos)
     }
 
   async openActions(todo: Todo){
@@ -54,6 +51,7 @@ export class HomePage {
   deleteTodo(todo:Todo){
     this.todos = this.todos.filter(todoArray => todo != todoArray);
     // this.updateLocalStorage();
+    // this.todoService.deleteTodo(todo)
   }
 
   // updateLocalStorage(){
@@ -72,8 +70,9 @@ export class HomePage {
     }
 
     let todo = {description: todoTodo, completed: false};
-    this.todos.push(todo);
+    // this.todos.push(todo);
     this.todoService.createTodo(todo);
+    this.todoService.getAll();
   }
 
   async showAdd(){

@@ -11,6 +11,11 @@ export class TodoService {
 
   constructor(private httpService: HttpClient) { }
 
+  public async getAll(){
+
+    return this.httpService.get(environment.url).toPromise();
+   }
+
   public async getTodo(urlContext?:string){
 
    return this.httpService.get(environment.url).toPromise();
