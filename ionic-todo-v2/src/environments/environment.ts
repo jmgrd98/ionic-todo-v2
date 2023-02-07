@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  url: 'http://localhost:3000/todos',
+  urlTodo: 'http://localhost:3000/todos',
+  urlUser: 'http://localhost:3000/users',
   id: '/:id'
 };
 
