@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Todo } from '../types/Todo';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 import { TodoService } from '../services/todo.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -17,10 +18,10 @@ export class HomePage {
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController) {
-      let todosJson = localStorage.getItem('todosDb');
-      if(todosJson != null){
-        this.todos = JSON.parse(todosJson);
-      }
+      // let todosJson = localStorage.getItem('todosDb');
+      // if(todosJson != null){
+      //   this.todos = JSON.parse(todosJson);
+      // }
 
       const todos = this.todoService.getTodo('');
       console.log(todos)
@@ -34,7 +35,7 @@ export class HomePage {
         icon: todo.completed ? 'radio-button-off' : 'checkmark-circle',
         handler: () => {
           todo.completed = !todo.completed;
-          this.updateLocalStorage();
+          // this.updateLocalStorage();
         },
       },
       {
@@ -52,12 +53,12 @@ export class HomePage {
 
   deleteTodo(todo:Todo){
     this.todos = this.todos.filter(todoArray => todo != todoArray);
-    this.updateLocalStorage();
+    // this.updateLocalStorage();
   }
 
-  updateLocalStorage(){
-    localStorage.setItem('todosDb', JSON.stringify(this.todos));
-  }
+  // updateLocalStorage(){
+  //   localStorage.setItem('todosDb', JSON.stringify(this.todos));
+  // }
 
   async addTodo(todoTodo: string){
     if(todoTodo.trim().length < 1){
@@ -70,9 +71,13 @@ export class HomePage {
       return;
     }
 
+    console.log(todoTodo)
+
+    // this.todo.createTodo(environment.url)
+
     let todo = {description: todoTodo, completed: false};
     this.todos.push(todo);
-    this.updateLocalStorage();
+    // this.updateLocalStorage();
   }
 
   async showAdd(){
@@ -102,6 +107,5 @@ export class HomePage {
     })
     await alert.present()
   }
-
 }
  
