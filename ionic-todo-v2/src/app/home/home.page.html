@@ -1,12 +1,12 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>
-      ToDo
-    </ion-title>
+<ion-header id="header" [translucent]="true">
+  <ion-toolbar id="menu" color="primary">
+
+    <ion-title>ToDo</ion-title>
+    <ion-label *ngIf="submittedForm" class="userName">{{user.name}}</ion-label>
+
   </ion-toolbar>
 
-  <ion-label>{{user.name}}</ion-label>
-  
+
 </ion-header>
 
 

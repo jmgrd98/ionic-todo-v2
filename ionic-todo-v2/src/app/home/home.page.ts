@@ -37,14 +37,14 @@ export class HomePage implements OnInit{
     }    
 
   async ngOnInit() {
-    this.user.name = 'Junior teste';
     this.getTodos();
   }
 
   async submitForm(){
     this.submittedForm = true;
-
-    let user = {name: this.signUpForm.value.name, email: this.signUpForm.value.email, password: this.signUpForm.value.password};
+    this.user.name = this.signUpForm.value.name;
+    this.user.email = this.signUpForm.value.email;
+    this.user.password = this.signUpForm.value.password;
     
     await this.userService.createUser(this.signUpForm.value);
 
