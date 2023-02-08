@@ -36,6 +36,17 @@
     <ion-note slot="error">Invalid password</ion-note>
   </ion-item>
 
+  <ion-item fill="solid">
+    <ion-label position="floating">Confirm password</ion-label>
+    <ion-input type="password" ngModel confirmPassword formControlName="confirmPassword"></ion-input>
+    <ion-note slot="helper">Enter a valid password</ion-note>
+    <ion-note
+    *ngIf="signUpForm.value.password === signUpForm.value.confirmPassword"
+    slot="error">
+    Invalid password
+  </ion-note>
+  </ion-item>
+
   <ion-button id="cadastrarBtn" (click)="submitForm()">Cadastrar</ion-button>
   
 </form>

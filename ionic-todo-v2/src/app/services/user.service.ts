@@ -20,8 +20,6 @@ export class UserService {
   }
 
   public async createUser(user:User){
-    alert('Works!')
-
     return this.httpService.post(environment.urlUser, user).toPromise();
   }
 

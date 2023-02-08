@@ -3,7 +3,7 @@ import { Todo } from '../types/Todo';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 import { TodoService } from '../services/todo.service';
 import { environment } from 'src/environments/environment';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { User } from '../types/User';
 
@@ -31,10 +31,13 @@ export class HomePage implements OnInit{
       this.signUpForm = this.formBuilder.group({
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(6)]]
-      });
+        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+        confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+      }, {
+        validators: this.validateConfirmPassword.bind(this),
+      })
 
-    }    
+      };    
 
   async ngOnInit() {
     this.getTodos();
@@ -47,9 +50,13 @@ export class HomePage implements OnInit{
     this.user.password = this.signUpForm.value.password;
     
     await this.userService.createUser(this.signUpForm.value);
-
-    console.log(this.signUpForm.value);
     
+  }
+
+  validateConfirmPassword(formControl:FormControl){
+    if(this.signUpForm.value.confirmPassword !== this.signUpForm.value.password){
+      return {invalidConfirmPassword: true};
+    }
   }
 
   async getTodos(){
@@ -130,6 +137,6 @@ export class HomePage implements OnInit{
     })
     await alert.present()
   }
-
 }
+
  
