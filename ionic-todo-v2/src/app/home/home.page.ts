@@ -3,6 +3,10 @@ import { Todo } from '../types/Todo';
 import { ActionSheetController, AlertController, ToastController } from '@ionic/angular';
 import { TodoService } from '../services/todo.service';
 import { environment } from 'src/environments/environment';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../services/user.service';
+import { User } from '../types/User';
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -11,17 +15,42 @@ import { environment } from 'src/environments/environment';
 export class HomePage implements OnInit{
 
   todos: any = {};
+  users:any = {};
+  user:User = {};
+  signUpForm: FormGroup;
+  submittedForm:boolean = false;
 
   constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
     private todoService: TodoService,
     private actionSheetCtrl: ActionSheetController,
     private alertCtrl: AlertController,
     private toastCtrl: ToastController) {
-    }
 
-    async ngOnInit() {
-      this.getTodos();
-    }
+      this.signUpForm = this.formBuilder.group({
+        name: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(6)]]
+      });
+
+    }    
+
+  async ngOnInit() {
+    this.user.name = 'Junior teste';
+    this.getTodos();
+  }
+
+  async submitForm(){
+    this.submittedForm = true;
+
+    let user = {name: this.signUpForm.value.name, email: this.signUpForm.value.email, password: this.signUpForm.value.password};
+    
+    await this.userService.createUser(this.signUpForm.value);
+
+    console.log(this.signUpForm.value);
+    
+  }
 
   async getTodos(){
     this.todos =  await this.todoService.getAll();

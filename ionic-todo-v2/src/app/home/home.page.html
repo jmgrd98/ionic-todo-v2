@@ -4,34 +4,42 @@
       ToDo
     </ion-title>
   </ion-toolbar>
+
+  <ion-label>{{user.name}}</ion-label>
+  
 </ion-header>
+
 
 <ion-content [fullscreen]="true">
 
 <ion-card>
 
+  <form [formGroup]="signUpForm">
+
   <ion-item fill="solid">
     <ion-label position="floating">Name</ion-label>
-    <ion-input type="email" ngModel name></ion-input>
+    <ion-input type="name" ngModel name formControlName="name"></ion-input>
   </ion-item>
 
 
   <ion-item fill="solid">
     <ion-label position="floating">Email</ion-label>
-    <ion-input type="email" ngModel email></ion-input>
+    <ion-input type="email" ngModel email formControlName="email"></ion-input>
     <ion-note slot="helper">Enter a valid email</ion-note>
     <ion-note slot="error">Invalid email</ion-note>
   </ion-item>
 
   <ion-item fill="solid">
     <ion-label position="floating">Password</ion-label>
-    <ion-input type="password" ngModel password></ion-input>
+    <ion-input type="password" ngModel password formControlName="password"></ion-input>
     <ion-note slot="helper">Enter a valid password</ion-note>
     <ion-note slot="error">Invalid password</ion-note>
   </ion-item>
 
-  <ion-button id="cadastrarBtn">Cadastrar</ion-button>
+  <ion-button id="cadastrarBtn" (click)="submitForm()">Cadastrar</ion-button>
   
+</form>
+
 </ion-card>
 
 
