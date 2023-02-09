@@ -32,16 +32,23 @@ export class HomePage implements OnInit{
       this.signUpForm = this.formBuilder.group({
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
-        password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-        // confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
-      }, {
-        // validators: this.validateConfirmPassword.bind(this),
+        password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
+        confirmPassword: new FormControl(null, [Validators.required])
+      },
+      {
+        // validators: this.validateConfirmPassword('password', 'confirmPassword'),
       })
-
-      };    
+  };    
 
   async ngOnInit() {
     this.getTodos();
+  }
+
+  validateConfirmPassword(formGroup:FormGroup){
+    // let pass = this.signUpForm.value.password;
+    // let confirmPass = this.signUpForm.value.confirmPassword;
+
+    // return (pass === confirmPass ? null : {notSame: true})
   }
 
   async submitForm(){
@@ -52,13 +59,6 @@ export class HomePage implements OnInit{
     
     await this.userService.createUser(this.signUpForm.value);
     
-  }
-
-  validateConfirmPassword(formControl:FormControl){
-    if(this.signUpForm.value.confirmPassword !== this.signUpForm.value.password){
-      return {invalidConfirmPassword: true};
-    }
-    return null;
   }
 
   async getTodos(){
