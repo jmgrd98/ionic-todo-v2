@@ -17,9 +17,10 @@ export class HomePage implements OnInit{
   todos: any = {};
   users:any = {};
   user:User = {};
-  signUpForm: FormGroup;
+  signUpForm!: FormGroup;
   submittedForm:boolean = false;
   invalidConfirmPassword:boolean = false;
+  disabledBtn:boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,28 +31,74 @@ export class HomePage implements OnInit{
     private toastCtrl: ToastController) {
 
       this.signUpForm = this.formBuilder.group({
-        name: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
-        password: new FormControl(null, [Validators.required, Validators.minLength(6)]),
-        confirmPassword: new FormControl(null, [Validators.required])
+        name: ['', Validators.required]!,
+        email: ['', [Validators.required, Validators.email]!],
+        password: new FormControl('', [Validators.required, Validators.minLength(6)]!),
+        confirmPassword: new FormControl('', [Validators.required, this.validateConfirmPassword]!)
       },
       {
-        // validators: this.validateConfirmPassword('password', 'confirmPassword'),
+        // validators: this.validateConfirmPassword
       })
   };    
 
   async ngOnInit() {
+
+      
+      this.signUpForm.get('confirmPassword')?.valueChanges.subscribe((value) => {
+        console.log(value);
+
+        const password = this.signUpForm.value.password;
+        
+        if(password && password !== value){
+          this.invalidConfirmPassword = true;
+          console.log('Senhas diferentes!')
+        }
+
+        else if(password && password === value){
+          this.disabledBtn = false;
+        }
+      })
+
+    console.log(this.signUpForm.get('confirmPassword'));
     this.getTodos();
   }
 
-  validateConfirmPassword(formGroup:FormGroup){
-    // let pass = this.signUpForm.value.password;
-    // let confirmPass = this.signUpForm.value.confirmPassword;
+  validateConfirmPassword(otherField:string){
+    this.signUpForm.get('confirmPassword')?.valueChanges.subscribe((value) => {
+      console.log(value);
 
-    // return (pass === confirmPass ? null : {notSame: true})
+      const password = this.signUpForm.value.password;
+      
+      if(password && password !== value){
+        console.log('Senhas diferentes!')
+      }
+      else if(password && password === value){
+        this.disabledBtn = false;
+      }
+    })
+
+    const validator = (formControl: FormControl) => {
+      this.signUpForm.get('confirmPassword')?.valueChanges.subscribe((value) => {
+        console.log(value);
+  
+        const password = this.signUpForm.value.password;
+        
+        if(password && password !== value){
+          console.log('Senhas diferentes!')
+        }
+      })
+    };
+
+  console.log(this.signUpForm.get('confirmPassword'));
+  return validator;
   }
 
+
   async submitForm(){
+    if(this.signUpForm.value.password !== this.signUpForm.value.confirmPassword){
+      return alert('Confirm password must be equal')
+    }
+
     this.submittedForm = true;
     this.user.name = this.signUpForm.value.name;
     this.user.email = this.signUpForm.value.email;
