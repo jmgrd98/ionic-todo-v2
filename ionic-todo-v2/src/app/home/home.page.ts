@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { UserService } from '../services/user.service';
 import { User } from '../types/User';
+import { CustomValidator } from '../utils/custom-validators';
 
 @Component({
   selector: 'app-home',
@@ -34,24 +35,21 @@ export class HomePage implements OnInit{
         name: ['', Validators.required]!,
         email: ['', [Validators.required, Validators.email]!],
         password: new FormControl('', [Validators.required, Validators.minLength(6)]!),
-        confirmPassword: new FormControl('', [Validators.required, this.validateConfirmPassword]!)
+        confirmPassword: new FormControl('', [Validators.required]!)
       },
-      {
-        // validators: this.validateConfirmPassword
-      })
+      )
   };    
 
   async ngOnInit() {
 
       
       this.signUpForm.get('confirmPassword')?.valueChanges.subscribe((value) => {
-        console.log(value);
 
         const password = this.signUpForm.value.password;
         
         if(password && password !== value){
           this.invalidConfirmPassword = true;
-          console.log('Senhas diferentes!')
+          this.disabledBtn = true;
         }
 
         else if(password && password === value){
@@ -59,45 +57,27 @@ export class HomePage implements OnInit{
         }
       })
 
-    console.log(this.signUpForm.get('confirmPassword'));
     this.getTodos();
   }
 
-  validateConfirmPassword(otherField:string){
-    this.signUpForm.get('confirmPassword')?.valueChanges.subscribe((value) => {
-      console.log(value);
+  // async validateConfirmPassword(){
+  //   this.signUpForm.get('confirmPassword')?.valueChanges.subscribe((value) => {
 
-      const password = this.signUpForm.value.password;
+  //     const password = this.signUpForm.value.password;
       
-      if(password && password !== value){
-        console.log('Senhas diferentes!')
-      }
-      else if(password && password === value){
-        this.disabledBtn = false;
-      }
-    })
+  //     if(password && password !== value){
+  //       this.invalidConfirmPassword = true;
+  //       this.disabledBtn = true;
+  //     }
 
-    const validator = (formControl: FormControl) => {
-      this.signUpForm.get('confirmPassword')?.valueChanges.subscribe((value) => {
-        console.log(value);
-  
-        const password = this.signUpForm.value.password;
-        
-        if(password && password !== value){
-          console.log('Senhas diferentes!')
-        }
-      })
-    };
-
-  console.log(this.signUpForm.get('confirmPassword'));
-  return validator;
-  }
+  //     else if(password && password === value){
+  //       this.disabledBtn = false;
+  //     }
+  //   })
+  // }
 
 
   async submitForm(){
-    if(this.signUpForm.value.password !== this.signUpForm.value.confirmPassword){
-      return alert('Confirm password must be equal')
-    }
 
     this.submittedForm = true;
     this.user.name = this.signUpForm.value.name;
