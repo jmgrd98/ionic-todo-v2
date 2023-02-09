@@ -1,17 +1,19 @@
 #menu{
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
+  border: 2px solid green;
+  
 }
 
-#header{
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
+#title{
+  width: 10%;
+  justify-self: flex-end;
 }
 
 .userName{
-  margin: 0px 200px;
+  margin-left: 25px;
+  width: 100%;
   width: 50%;
 }
 

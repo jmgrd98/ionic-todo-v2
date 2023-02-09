@@ -1,7 +1,7 @@
 <ion-header id="header" [translucent]="true">
   <ion-toolbar id="menu" color="primary">
 
-    <ion-title>ToDo</ion-title>
+    <ion-title id="title">ToDo</ion-title>
     <ion-label *ngIf="submittedForm" class="userName">{{user.name}}</ion-label>
 
   </ion-toolbar>
@@ -41,7 +41,7 @@
     <ion-input type="password" ngModel confirmPassword formControlName="confirmPassword"></ion-input>
     <ion-note slot="helper">Enter a valid password</ion-note>
     <ion-note
-    *ngIf="invalidConfirmPassword"
+    *ngIf="signUpForm.value.password !== signUpForm.value.confirmPassword"
     slot="error">
     Invalid password
   </ion-note>

@@ -19,6 +19,7 @@ export class HomePage implements OnInit{
   user:User = {};
   signUpForm: FormGroup;
   submittedForm:boolean = false;
+  invalidConfirmPassword:boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,9 +33,9 @@ export class HomePage implements OnInit{
         name: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-        confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+        // confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
       }, {
-        validators: this.validateConfirmPassword.bind(this),
+        // validators: this.validateConfirmPassword.bind(this),
       })
 
       };    
@@ -57,6 +58,7 @@ export class HomePage implements OnInit{
     if(this.signUpForm.value.confirmPassword !== this.signUpForm.value.password){
       return {invalidConfirmPassword: true};
     }
+    return null;
   }
 
   async getTodos(){
