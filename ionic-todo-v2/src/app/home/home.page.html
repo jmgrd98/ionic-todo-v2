@@ -41,7 +41,7 @@
     <ion-input type="password" ngModel confirmPassword formControlName="confirmPassword"></ion-input>
     <ion-note slot="helper">Enter a valid password</ion-note>
     <ion-note
-    *ngIf="signUpForm.value.password === signUpForm.value.confirmPassword"
+    *ngIf="invalidConfirmPassword"
     slot="error">
     Invalid password
   </ion-note>
