@@ -50,6 +50,7 @@ export class HomePage implements OnInit{
         if(password && password !== value){
           this.invalidConfirmPassword = true;
           this.disabledBtn = true;
+          this.signUpForm.get('confirmPassword')?.setValidators([CustomValidator.confirmPassword(password)])
         }
 
         else if(password && password === value){

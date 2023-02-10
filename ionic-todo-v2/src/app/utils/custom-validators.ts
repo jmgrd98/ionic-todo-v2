@@ -69,12 +69,12 @@ export class CustomValidator {
         };
     }
 
-    static confirmPassword(): ValidatorFn {
+    static confirmPassword(password:string): ValidatorFn {
         return (control: AbstractControl): { [key: string]: boolean } | null => {
-            // if (control.value !== undefined && control.value && control.value.length < 3) {
-            //     return { 'invalid': true };
-            // }
-            console.log(control.value)
+            if (control.value !== password) {
+                return { 'invalid': true };
+            }
+
             return null;
         };
     }
