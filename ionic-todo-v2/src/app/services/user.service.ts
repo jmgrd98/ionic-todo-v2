@@ -30,5 +30,4 @@ export class UserService {
   public async deleteUser(id:string){
     return this.httpService.delete(environment.urlUser+`/${id}`).toPromise();
   }
-
 }
